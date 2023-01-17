@@ -1,0 +1,76 @@
+public class Main {
+  // Fractional knapsack
+  private static void Knapsack() {
+    int[] wt = {10,20,30};
+    int[] val = {60, 100, 120};
+    int[][] items = new int[wt.length][2];
+    for(int i=0; i<wt.length; ++i) {
+      items[i][0] = wt[i];
+      items[i][1] = val[i];
+    }
+    
+    System.out.println(KnapsackUtil(items));
+  }
+  private static int KnapsackUtil(int[][] items) {
+    int[][] ratio = new int[items.length][items.length];
+    for(int i=0; i<items.length; ++i) {
+      ratio[i][0] = i;
+      ratio[i][1] = items[i][1]/items[i][0];
+    }
+    
+    Arrays.sort(ratio, Comparator.comparingDouble(o -> o[1]));
+    
+    int wt = 50;
+    int val=0;
+    for(int i=ratio.length-1; i>=0; --i) {
+      if((wt - items[ratio[i][0]][0]) > 0) {
+        val += items[ratio[i][0]][1];
+        wt -= items[ratio[i][0]][0];
+      } else {
+        val += ratio[i][1]*wt;
+        wt -= wt;
+      } 
+    }
+    
+    return val;
+  }
+
+  // Min Absolute difference pairs
+  private static void MinAbs() {
+    int[] A = {4,1,8,7};
+    int[] B = {2,3,6,5};
+    System.out.println(MinAbsUtil(A, B));
+  }
+  private static int MinAbsUtil(int[] A, int[] B) {
+    Arrays.sort(A);
+    Arrays.sort(B);
+    int m = 0;
+    for(int i=0; i<A.length; ++i) 
+      m += Math.abs(A[i]-B[i]);  
+    
+    return m;
+  }
+  
+  // Q1
+  private static void BalancedPartition() {
+    String str=new String("LRRRRLLRLLRL");
+    System.out.println(BPUtil(str));
+  }
+  private static int BPUtil(String s) {
+    int r=0,l=0, ans=0;
+    for(int i=0; i<s.length(); ++i) {
+      if(s.charAt(i) == 'R')
+        ++r;
+      else if(s.charAt(i) == 'L')
+        ++l;
+      
+      if(r == l)
+        ++ans;
+    }
+    return ans;
+  }
+  
+  public static void main(String[] args) {
+    BalancedPartition();        
+  }
+}
